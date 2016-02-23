@@ -3,9 +3,9 @@
 #include "ofMain.h"
 #include "ofxPostGlitch.h"
 #include "ofxNetwork.h"
-#include "ofxThreadedImageSaver.h"
+#include "ofxImageSequenceRecorder.h"
 
-#define TCP_PORT 3000
+#define TCP_PORT 3001
 
 class ofApp : public ofBaseApp{
     
@@ -33,7 +33,7 @@ public:
     ofVideoPlayer videoPlayer;
     ofFbo fbo;
     ofxTCPClient tcpClient;
-    ofThreadedImageSaver threadedImageSaver;
+    ofxImageSequenceRecorder recorder;
     
     string tcpGuid;
     string tcpInput;

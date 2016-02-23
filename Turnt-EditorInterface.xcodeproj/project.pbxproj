@@ -57,9 +57,9 @@
 		DE0519CF1C7B799C00F9412A /* ofxTCPManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxTCPManager.h; sourceTree = "<group>"; };
 		DE0519D01C7B799C00F9412A /* ofxTCPServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxTCPServer.cpp; sourceTree = "<group>"; };
 		DE0519D11C7B799C00F9412A /* ofxTCPServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxTCPServer.h; sourceTree = "<group>"; };
-		DE0519D21C7B799C00F9412A /* ofxThreadedImageSaver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxThreadedImageSaver.h; sourceTree = "<group>"; };
 		DE0519D31C7B799C00F9412A /* ofxUDPManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxUDPManager.cpp; sourceTree = "<group>"; };
 		DE0519D41C7B799C00F9412A /* ofxUDPManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUDPManager.h; sourceTree = "<group>"; };
+		DEADA6C71C7CC67400A7509D /* ofxImageSequenceRecorder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxImageSequenceRecorder.h; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E4B69B5B0A3A1756003C02F2 /* Turnt-EditorInterfaceDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Turnt-EditorInterfaceDebug.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4B69E1D0A3A1BDC003C02F2 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = SOURCE_ROOT; };
@@ -95,9 +95,9 @@
 				DE0519CF1C7B799C00F9412A /* ofxTCPManager.h */,
 				DE0519D01C7B799C00F9412A /* ofxTCPServer.cpp */,
 				DE0519D11C7B799C00F9412A /* ofxTCPServer.h */,
-				DE0519D21C7B799C00F9412A /* ofxThreadedImageSaver.h */,
 				DE0519D31C7B799C00F9412A /* ofxUDPManager.cpp */,
 				DE0519D41C7B799C00F9412A /* ofxUDPManager.h */,
+				DEADA6C71C7CC67400A7509D /* ofxImageSequenceRecorder.h */,
 			);
 			name = "add-ons";
 			path = src;

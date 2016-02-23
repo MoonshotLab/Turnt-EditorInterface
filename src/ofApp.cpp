@@ -13,14 +13,22 @@ void ofApp::setup(){
     
     fbo.allocate(1280, 720);
 
-    videoPlayer.load("sample.mov");
+    videoPlayer.load("video.mp4");
     videoPlayer.setVolume(0);
     videoPlayer.play();
     
     glitch.setup(&fbo);
     
+    ofSetFullscreen(true);
+    
+    recorder.setPrefix(ofToDataPath("recording/frame_"));
+    recorder.setFormat("jpg");
+    
+    recorder.startThread();
+    
     record = false;
 }
+
 
 //--------------------------------------------------------------
 void ofApp::update(){
@@ -28,11 +36,16 @@ void ofApp::update(){
     // read tcp input from node server
     if(tcpClient.isConnected()){
 
+
         string tcpMessage = tcpClient.receiveRaw();
         vector<string> tokens = ofSplitString(tcpMessage, "|");
         
         // sometimes multiple messages get queued and get stuck, just ignore these
         if(tokens.size() == 3){
+
+//            tcpClient.sendRaw("{ \"message\" : \"done\" }");
+//            std::exit(0);
+            
             // check to make shere the guid isn't already used
             if(tcpGuid.compare(tokens[0]) != 0){
 
@@ -55,7 +68,8 @@ void ofApp::update(){
             }
         }
     }
-
+    
+    // start effects
     fbo.begin();
     ofClear(0, 0, 0, 255);
     
@@ -64,23 +78,26 @@ void ofApp::update(){
     videoPlayer.update();
     videoPlayer.draw(0, 0);
     
+    // end effects
     fbo.end();
-    
+
+    // record the images
     if(record){
-        string fileName = ofToString(ofGetFrameNum()) + ".png";
-        threadedImageSaver.grabScreen(0, 0, 1280, 720);
-        threadedImageSaver.saveThreaded(fileName);
+        ofImage img;
+        img.grabScreen(0, 0, ofGetWindowWidth(), ofGetWindowHeight());
+        recorder.addFrame(img);
     }
 }
 
+
 //--------------------------------------------------------------
 void ofApp::draw(){
+    // draw effects and video
     ofSetColor(255);
-
     glitch.generateFx();
-    
     fbo.draw(0, 0);
 }
+
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
@@ -104,6 +121,8 @@ void ofApp::keyPressed(int key){
     if (key == 'u') glitch.setFx(OFXPOSTGLITCH_CR_GREENINVERT	, true);
     if (key == 'r') record = true;
 }
+
+
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
@@ -131,52 +150,6 @@ void ofApp::keyReleased(int key){
     
 }
 
-//--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y ){
-//    if(x > 0 && x<= 1280){
-//        videoPosition = x/float(ofGetWidth());
-//    }
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button){
-    
-}
-
-//--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
-    
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
-    
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y){
-    
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y){
-    
-}
-
-//--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
-    
-}
-
-//--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
-    
-}
-
-//--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){
-    
-}
 
 
 //--------------------------------------------------------------
