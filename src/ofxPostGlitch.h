@@ -91,7 +91,7 @@ public:
 	bool getFx(const string & shaderName);
 
 	/* Apply enable effects to target Fbo */
-	void generateFx();
+    void generateFx(float intensityLevel);
     
     void listShaders();
     

@@ -1,7 +1,7 @@
 .DS_Store
 bin/*.app
-bin/data/video.mp4
-bin/data/*.jpg
+bin/data/recording.mp4
+bin/data/recording/*.jpg
 
 ## Build generated
 build/
