@@ -130,7 +130,7 @@ void ofxPostGlitch::setFxLevel(const string &shaderName, float level)
 
 void ofxPostGlitch::setFxLevel(int shaderIndex, float level)
 {
-    if (shaderIndex < 0 || shaderIndex >= shaders.size()) return -1;
+    if (shaderIndex < 0 || shaderIndex >= shaders.size());
     shaders[shaderIndex].level = level;
 }
 
