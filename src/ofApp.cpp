@@ -14,14 +14,15 @@ void ofApp::setup(){
     
     fbo.allocate(1280, 720);
 
-    videoPlayer.load("video.mp4");
+    videoPlayer.load("recording.mp4");
     videoPlayer.setVolume(0);
     videoPlayer.play();
     
     glitch.setup(&fbo);
     
-    ofSetFullscreen(true);
-    
+	ofSetWindowShape(1366, 768);
+	ofSetWindowPosition(1366, 0);
+
     recorder.setPrefix(ofToDataPath("recording/frame_"));
     recorder.setFormat("jpg");
     
