@@ -1,11 +1,13 @@
 uniform sampler2DRect image;
 uniform float rand;
+uniform float intensity;
 
 varying vec3 pos;
 
 void main (void)
 {
     vec2 texCoord = vec2(pos.x , pos.y);
+    float rand = intensity*.025;
 
     vec4 col = texture2DRect(image,texCoord);
     vec4 col_r = texture2DRect(image,texCoord + vec2(-35.0*rand,0));

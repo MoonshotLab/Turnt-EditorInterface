@@ -22,14 +22,7 @@ static const string OFXPOSTGLITCH_OUTLINE               = "outline";
 static const string OFXPOSTGLITCH_NOISE                 = "noise";
 static const string OFXPOSTGLITCH_SLITSCAN              = "slitscan";
 static const string OFXPOSTGLITCH_SWELL                 = "swell";
-static const string OFXPOSTGLITCH_INVERT                = "invert";
-static const string OFXPOSTGLITCH_CR_HIGHCONTRAST       = "crHighContrast";
-static const string OFXPOSTGLITCH_CR_BLUERAISE          = "crBlueraise";
-static const string OFXPOSTGLITCH_CR_REDRAISE           = "crRedraise";
-static const string OFXPOSTGLITCH_CR_GREENRAISE         = "crGreenraise";
-static const string OFXPOSTGLITCH_CR_REDINVERT          = "crRedinvert";
-static const string OFXPOSTGLITCH_CR_BLUEINVERT         = "crBlueinvert";
-static const string OFXPOSTGLITCH_CR_GREENINVERT        = "crGreeninvert";
+
 
 class ofxPostGlitch
 {

@@ -1,5 +1,5 @@
 uniform sampler2DRect image;
-uniform float rand;
+uniform float fixedIntensity, rand;
 uniform int range;
 
 varying vec3 pos;
@@ -80,7 +80,7 @@ void main (void)
     vec2 texCoord = vec2(pos.x , pos.y);
     vec4 col = texture2DRect(image,texCoord);
     
-    col.rgb = col.rgb + snoise(vec2(pos.x*pos.y+rand*231.5 , pos.x+pos.y-rand*324.1))*0.5;
+    col.rgb = col.rgb + snoise(vec2(pos.x*pos.y+rand*231.5 , pos.x+pos.y-rand*324.1))*(fixedIntensity*0.01);
     
     gl_FragColor.rgba = col.rgba;
 }
