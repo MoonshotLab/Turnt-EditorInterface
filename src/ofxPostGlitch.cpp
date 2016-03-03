@@ -61,8 +61,10 @@ bool ofxPostGlitch::setShaders(const string &shaderDirectory)
 
 bool ofxPostGlitch::addShader(const string &shaderPath)
 {
-    string fileName = ofSplitString(shaderPath, "/").back();
-    if (fileName == VERTEX_SHADER_NAME) return true;
+	string fileName = ofSplitString(shaderPath, "\\").back();
+	fileName = ofSplitString(fileName, "/").back();
+
+	if (fileName == VERTEX_SHADER_NAME) return true;
     vector<string> shaderName = ofSplitString(fileName, ".");
     if (shaderName.size() != 2)
     {
