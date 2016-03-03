@@ -9,7 +9,7 @@ void ofApp::setup(){
     effectStrength = 1.0;
 
     ofSetVerticalSync(true);
-    ofSetFrameRate(60);
+    ofSetFrameRate(30);
     ofSetCircleResolution(3);
     
     fbo.allocate(1280, 720);
@@ -21,7 +21,7 @@ void ofApp::setup(){
     glitch.setup(&fbo);
     
 	ofSetWindowShape(1366, 768);
-	ofSetWindowPosition(1366, 0);
+	ofSetWindowPosition(0, 0);
 
     recorder.setPrefix(ofToDataPath("recording/frame_"));
     recorder.setFormat("jpg");
