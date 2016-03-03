@@ -35,7 +35,9 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    
+	// this is required, do not know why
+	videoPlayer.setPaused(true);
+
     // read tcp input from node server
     if(tcpClient.isConnected()){
 
