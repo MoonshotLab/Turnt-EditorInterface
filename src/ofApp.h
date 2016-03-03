@@ -32,5 +32,4 @@ public:
     float effectStrength;
     
     bool record;
-    bool shouldQuit;
 };

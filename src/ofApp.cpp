@@ -29,7 +29,6 @@ void ofApp::setup(){
     recorder.startThread();
     
     record = false;
-    shouldQuit = false;
 }
 
 
@@ -43,11 +42,7 @@ void ofApp::update(){
 
         string tcpMessage = tcpClient.receiveRaw();
         vector<string> tokens = ofSplitString(tcpMessage, "|");
-        
-        if(shouldQuit){
-            tcpClient.sendRaw("{ \"message\" : \"done\" }");
-            std::exit(0);
-        }
+
         
         // sometimes multiple messages get queued and get stuck, just ignore these
         if(tokens.size() == 3){
@@ -93,6 +88,12 @@ void ofApp::update(){
         img.grabScreen(0, 0, ofGetWindowWidth(), ofGetWindowHeight());
         recorder.addFrame(img);
     }
+    
+    // close after 15 seconds
+    if(ofGetElapsedTimeMillis() > 15000){
+        tcpClient.sendRaw("{ \"message\" : \"done\" }");
+        std::exit(0);
+    }
 }
 
 
@@ -115,8 +116,6 @@ void ofApp::keyPressed(int key){
     if (key == '6') glitch.setFx(OFXPOSTGLITCH_NOISE			, true);
     if (key == '7') glitch.setFx(OFXPOSTGLITCH_SLITSCAN         , true);
     if (key == '8') glitch.setFx(OFXPOSTGLITCH_SWELL			, true);
-    
-    if (key == 'r') record = true;
 }
 
 
@@ -131,10 +130,6 @@ void ofApp::keyReleased(int key){
     if (key == '6') glitch.setFx(OFXPOSTGLITCH_NOISE			, false);
     if (key == '7') glitch.setFx(OFXPOSTGLITCH_SLITSCAN         , false);
     if (key == '8') glitch.setFx(OFXPOSTGLITCH_SWELL			, false);
-
-    if (key == 'r') record = false;
-    if (key == 'q') shouldQuit = true;
-    
 }
 
 
