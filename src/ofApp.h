@@ -2,10 +2,8 @@
 
 #include "ofMain.h"
 #include "ofxPostGlitch.h"
-#include "ofxNetwork.h"
 #include "ofxImageSequenceRecorder.h"
-
-#define TCP_PORT 3001
+#include "threadedTcpClient.h"
 
 class ofApp : public ofBaseApp{
     
@@ -23,12 +21,9 @@ public:
     ofxPostGlitch glitch;
     ofVideoPlayer videoPlayer;
     ofFbo fbo;
-    ofxTCPClient tcpClient;
     ofxImageSequenceRecorder recorder;
-    
-    string tcpGuid;
-    string tcpInput;
-    int tcpValue;
+    threadedTcpClient threadedTcpClient;
+
     float effectStrength;
     
     bool record;

@@ -3,7 +3,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    tcpClient.setup("127.0.0.1", TCP_PORT);
+    threadedTcpClient.makeConnection();
     
     videoPosition = 0.0;
     effectStrength = 1.0;
@@ -36,46 +36,16 @@ void ofApp::setup(){
 void ofApp::update(){
 	// this is required, do not know why
 	videoPlayer.setPaused(true);
-
-    // read tcp input from node server
-    if(tcpClient.isConnected()){
-
-        string tcpMessage = tcpClient.receiveRaw();
-        vector<string> tokens = ofSplitString(tcpMessage, "|");
-
-        
-        // sometimes multiple messages get queued and get stuck, just ignore these
-        if(tokens.size() == 3){
-            // check to make shere the guid isn't already used
-            if(tcpGuid.compare(tokens[0]) != 0){
-
-                tcpGuid  = tokens[0];
-                tcpInput = tokens[1];
-                tcpValue = stoi(tokens[2]);
-                
-                // jog wheel manipulation
-                if(tcpInput.compare("jog-wheel") == 0){
-                    if(tcpValue == 1) videoPosition += .01;
-                    else videoPosition -= .01;
-                    
-                    if(videoPosition < 0) videoPosition = 0;
-                    if(videoPosition > 1) videoPosition = 1;
-                }
-                
-                if(tcpInput.compare("slide") == 0){
-                    if(tcpValue < 1) tcpValue = 1;
-                    effectStrength = float(tcpValue)*0.25;
-                }
-            }
-        }
-    }
     
     // start effects
     fbo.begin();
     ofClear(0, 0, 0, 255);
     
-    // update the video position
-    videoPlayer.setPosition(videoPosition);
+    // ask for video and effect strengths
+    videoPlayer.setPosition(threadedTcpClient.getVideoPosition());
+    effectStrength = threadedTcpClient.getEffectStrength();
+    
+    // draw the video before the fbo
     videoPlayer.update();
     videoPlayer.draw(0, 0);
     
@@ -91,7 +61,7 @@ void ofApp::update(){
     
     // close after 15 seconds
     if(ofGetElapsedTimeMillis() > 15000){
-        tcpClient.sendRaw("{ \"message\" : \"done\" }");
+        threadedTcpClient.sendMessage("{ \"message\" : \"done\" }");
         std::exit(0);
     }
 }
