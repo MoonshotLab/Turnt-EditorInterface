@@ -14,9 +14,14 @@ void ofApp::setup(){
     
     fbo.allocate(1366, 768);
 
+	timerVideo.load("clock.mov");
+	timerVideo.setLoopState(OF_LOOP_NONE);
+	timerVideo.play();
+
     videoPlayer.load("recording.mp4");
     videoPlayer.setVolume(0);
     videoPlayer.play();
+	threadedTcpClient.setVideoPlayer(videoPlayer);
     
     glitch.setup(&fbo);
     
@@ -34,20 +39,27 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-	// this is required, do not know why
-	videoPlayer.setPaused(true);
-    
     // start effects
     fbo.begin();
     ofClear(255, 255, 255, 255);
     
-    // ask for video and effect strengths
-    videoPlayer.setPosition(threadedTcpClient.getVideoPosition());
+    // ask for video position
+	// if none has been set, let play continue
+	float pos = threadedTcpClient.getVideoPosition();
+	if (pos != -1) {
+		videoPlayer.setPosition(threadedTcpClient.getVideoPosition());
+		videoPlayer.setPaused(true);
+	}
+
+	// ask for effect strength
     effectStrength = threadedTcpClient.getEffectStrength();
     
     // draw the video before the fbo
     videoPlayer.update();
     videoPlayer.draw(171, 0, 1024, 768);
+
+	timerVideo.update();
+	timerVideo.draw(1248, 660, 84, 87);
 
 	// end effects
 	fbo.end();

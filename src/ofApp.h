@@ -20,6 +20,7 @@ public:
     
     ofxPostGlitch glitch;
     ofVideoPlayer videoPlayer;
+	ofVideoPlayer timerVideo;
     ofFbo fbo;
     ofxImageSequenceRecorder recorder;
     threadedTcpClient threadedTcpClient;

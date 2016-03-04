@@ -12,15 +12,20 @@
 
 class threadedTcpClient : public ofThread{
     ofxTCPClient tcpClient;
+	ofVideoPlayer videoPlayer;
     string tcpGuid;
 
-    float videoPosition;
-    float effectStrength;
+    float videoPosition = -1.0;
+    float effectStrength = -1.0;
     
     public:
     void makeConnection(){
         tcpClient.setup("127.0.0.1", 3001);
     }
+
+	void setVideoPlayer(ofVideoPlayer player) {
+		videoPlayer = player;
+	}
 
     float getEffectStrength(){
         return effectStrength;
@@ -48,6 +53,11 @@ class threadedTcpClient : public ofThread{
                     
                     // jog wheel manipulation
                     if(tcpInput.compare("jog-wheel") == 0){
+						// if no position is yet set, set one
+						if (videoPosition == -1) {
+							videoPosition = videoPlayer.getPosition();
+						}
+
                         if(tcpValue == 1) videoPosition += .01;
                         else videoPosition -= .01;
                         
