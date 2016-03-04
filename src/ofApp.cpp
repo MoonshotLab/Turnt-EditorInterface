@@ -10,10 +10,9 @@ void ofApp::setup(){
     effectStrength = 1.0;
 
     ofSetVerticalSync(true);
-    ofSetFrameRate(30);
     ofSetCircleResolution(3);
     
-    fbo.allocate(1280, 720);
+    fbo.allocate(1366, 768);
 
     videoPlayer.load("recording.mp4");
     videoPlayer.setVolume(0);
@@ -40,7 +39,7 @@ void ofApp::update(){
     
     // start effects
     fbo.begin();
-    ofClear(0, 0, 0, 255);
+    ofClear(255, 255, 255, 255);
     
     // ask for video and effect strengths
     videoPlayer.setPosition(threadedTcpClient.getVideoPosition());
@@ -48,20 +47,25 @@ void ofApp::update(){
     
     // draw the video before the fbo
     videoPlayer.update();
-    videoPlayer.draw(0, 0);
-    
-    // end effects
-    fbo.end();
+    videoPlayer.draw(171, 0, 1024, 768);
 
-    // record the images
-    if(record){
-        ofImage img;
-        img.grabScreen(0, 0, ofGetWindowWidth(), ofGetWindowHeight());
-        recorder.addFrame(img);
-    }
+	// end effects
+	fbo.end();
+
+	// record the images
+	if (record) {
+		ofImage img;
+		img.grabScreen(171, 0, 1024, ofGetWindowHeight());
+		recorder.addFrame(img);
+	}
     
-    // close after 15 seconds
-    if(ofGetElapsedTimeMillis() > 15000){
+	// start recording after 2 seconds
+	if (ofGetElapsedTimeMillis() > 2000) {
+		record = true;
+	}
+
+    // close after 17 seconds
+    if(ofGetElapsedTimeMillis() > 17000){
         threadedTcpClient.sendMessage("{ \"message\" : \"done\" }");
         std::exit(0);
     }
