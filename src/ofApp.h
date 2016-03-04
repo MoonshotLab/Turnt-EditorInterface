@@ -13,11 +13,6 @@ public:
     void draw();
     void exit();
     
-    void keyPressed(int key);
-    void keyReleased(int key);
-    
-    float videoPosition;
-    
     ofxPostGlitch glitch;
     ofVideoPlayer videoPlayer;
 	ofVideoPlayer timerVideo;
@@ -26,6 +21,5 @@ public:
     threadedTcpClient threadedTcpClient;
 
     float effectStrength;
-    
     bool record;
 };

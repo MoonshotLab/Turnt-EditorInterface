@@ -1,13 +1,15 @@
 #include "ofApp.h"
 
+string effectsLibrary[6] = { OFXPOSTGLITCH_CONVERGENCE, OFXPOSTGLITCH_CUTSLIDER, OFXPOSTGLITCH_TWIST, OFXPOSTGLITCH_NOISE, OFXPOSTGLITCH_SLITSCAN, OFXPOSTGLITCH_SWELL };
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+
+	// shuffle the array of effects
+	random_shuffle(&effectsLibrary[0], &effectsLibrary[5]);
+
     threadedTcpClient.makeConnection();
 	threadedTcpClient.startThread(false, false);
-
-    videoPosition = 0.0;
-    effectStrength = 1.0;
 
     ofSetVerticalSync(true);
     ofSetCircleResolution(3);
@@ -38,12 +40,12 @@ void ofApp::setup(){
 
 
 //--------------------------------------------------------------
-void ofApp::update(){
-    // start effects
-    fbo.begin();
-    ofClear(255, 255, 255, 255);
-    
-    // ask for video position
+void ofApp::update() {
+	// start effects
+	fbo.begin();
+	ofClear(255, 255, 255, 255);
+
+	// ask for video position
 	// if none has been set, let play continue
 	float pos = threadedTcpClient.getVideoPosition();
 	if (pos != -1) {
@@ -51,9 +53,28 @@ void ofApp::update(){
 		videoPlayer.setPaused(true);
 	}
 
-	// ask for effect strength
-    effectStrength = threadedTcpClient.getEffectStrength();
-    
+	// ask for effect strength and apply accordingly
+	effectStrength = threadedTcpClient.getEffectStrength();
+	if (effectStrength > 5) {
+		glitch.setFx(effectsLibrary[0], true);
+	}
+	else {
+		glitch.setFx(effectsLibrary[1], false);
+		glitch.setFx(effectsLibrary[2], false);
+	}
+
+	if (effectStrength > 15) {
+		glitch.setFx(effectsLibrary[1], true);
+	}
+	else {
+		glitch.setFx(effectsLibrary[2], false);
+	}
+
+	if (effectStrength > 25) {
+		glitch.setFx(effectsLibrary[2], true);
+	}
+
+
     // draw the video before the fbo
     videoPlayer.update();
     videoPlayer.draw(171, 0, 1024, 768);
@@ -91,34 +112,6 @@ void ofApp::draw(){
     glitch.generateFx(effectStrength);
     fbo.draw(0, 0);
 }
-
-
-//--------------------------------------------------------------
-void ofApp::keyPressed(int key){
-    if (key == '1') glitch.setFx(OFXPOSTGLITCH_CONVERGENCE      , true);
-    if (key == '2') glitch.setFx(OFXPOSTGLITCH_GLOW             , true);
-    if (key == '3') glitch.setFx(OFXPOSTGLITCH_SHAKER			, true);
-    if (key == '4') glitch.setFx(OFXPOSTGLITCH_CUTSLIDER		, true);
-    if (key == '5') glitch.setFx(OFXPOSTGLITCH_TWIST			, true);
-    if (key == '6') glitch.setFx(OFXPOSTGLITCH_NOISE			, true);
-    if (key == '7') glitch.setFx(OFXPOSTGLITCH_SLITSCAN         , true);
-    if (key == '8') glitch.setFx(OFXPOSTGLITCH_SWELL			, true);
-}
-
-
-
-//--------------------------------------------------------------
-void ofApp::keyReleased(int key){
-    if (key == '1') glitch.setFx(OFXPOSTGLITCH_CONVERGENCE      , false);
-    if (key == '2') glitch.setFx(OFXPOSTGLITCH_GLOW             , false);
-    if (key == '3') glitch.setFx(OFXPOSTGLITCH_SHAKER			, false);
-    if (key == '4') glitch.setFx(OFXPOSTGLITCH_CUTSLIDER		, false);
-    if (key == '5') glitch.setFx(OFXPOSTGLITCH_TWIST			, false);
-    if (key == '6') glitch.setFx(OFXPOSTGLITCH_NOISE			, false);
-    if (key == '7') glitch.setFx(OFXPOSTGLITCH_SLITSCAN         , false);
-    if (key == '8') glitch.setFx(OFXPOSTGLITCH_SWELL			, false);
-}
-
 
 
 //--------------------------------------------------------------

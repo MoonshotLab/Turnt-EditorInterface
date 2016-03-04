@@ -14,8 +14,6 @@ static const int    GLITCH_NUM  = 17;
 
 static const string OFXPOSTGLITCH_DEFAULT_SHADER_DIR    = "Shaders";
 static const string OFXPOSTGLITCH_CONVERGENCE           = "convergence";
-static const string OFXPOSTGLITCH_GLOW                  = "glow";
-static const string OFXPOSTGLITCH_SHAKER                = "shaker";
 static const string OFXPOSTGLITCH_CUTSLIDER             = "cut_slider";
 static const string OFXPOSTGLITCH_TWIST                 = "twist";
 static const string OFXPOSTGLITCH_OUTLINE               = "outline";
