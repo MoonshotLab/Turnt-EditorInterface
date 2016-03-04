@@ -4,7 +4,8 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     threadedTcpClient.makeConnection();
-    
+	threadedTcpClient.startThread(false, false);
+
     videoPosition = 0.0;
     effectStrength = 1.0;
 
