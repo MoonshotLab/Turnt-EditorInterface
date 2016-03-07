@@ -97,10 +97,17 @@ void ofApp::update() {
 		record = true;
 	}
 
-    // close after 17 seconds
-    if(ofGetElapsedTimeMillis() > 17000){
-        threadedTcpClient.sendMessage("{ \"message\" : \"done\" }");
-        std::exit(0);
+	// stop recording but give the app a second or two to parse what we just saw
+	if (ofGetElapsedTimeMillis() > 16000) {
+		ofSetWindowPosition(0, 768);
+		record = false;
+		threadedTcpClient.sendMessage("{ \"message\" : \"done-recording\" }");
+	}
+
+    // close after 18 seconds
+    if(ofGetElapsedTimeMillis() > 18000){
+		threadedTcpClient.sendMessage("{ \"message\" : \"done\" }");
+		std::exit(0);
     }
 }
 
