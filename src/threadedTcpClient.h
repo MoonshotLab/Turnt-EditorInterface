@@ -61,8 +61,8 @@ class threadedTcpClient : public ofThread{
                         if(tcpValue == 1) videoPosition += .01;
                         else videoPosition -= .01;
                         
-                        if(videoPosition <= 0) videoPosition = 1;
-                        if(videoPosition >= 1) videoPosition = 0;
+                        if(videoPosition < 0) videoPosition = 1;
+                        if(videoPosition > 1) videoPosition = 0;
                     }
                     
                     // slider manipulation
