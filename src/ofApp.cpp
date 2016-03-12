@@ -9,7 +9,7 @@ void ofApp::setup(){
 	random_shuffle(&effectsLibrary[0], &effectsLibrary[5]);
 
     threadedTcpClient.makeConnection();
-	threadedTcpClient.startThread(false, false);
+	threadedTcpClient.startThread();
 
     ofSetVerticalSync(true);
     ofSetCircleResolution(3);
@@ -33,9 +33,8 @@ void ofApp::setup(){
     recorder.setPrefix(ofToDataPath("recording/frame_"));
     recorder.setFormat("jpg");
     
-    recorder.startThread();
-    
     record = false;
+    recorder.startThread();
 }
 
 
@@ -87,9 +86,11 @@ void ofApp::update() {
 
 	// record the images
 	if (record) {
-		ofImage img;
-		img.grabScreen(171, 0, 1024, ofGetWindowHeight());
-		recorder.addFrame(img);
+        if(recorder.isThreadRunning()){
+            ofImage img;
+            img.grabScreen(171, 0, 1024, ofGetWindowHeight());
+            recorder.addFrame(img);
+        }
 	}
     
 	// start recording after 2 seconds
@@ -99,15 +100,10 @@ void ofApp::update() {
 
 	// stop recording but give the app a second or two to parse what we just saw
 	if (ofGetElapsedTimeMillis() > 15000) {
-		ofSetWindowPosition(0, 768);
+        recorder.stopThread();
 		record = false;
+        ofApp::exit();
 	}
-
-    // close after 17 seconds
-    if(ofGetElapsedTimeMillis() > 17000){
-		threadedTcpClient.sendMessage("{ \"message\" : \"done\" }");
-		std::exit(0);
-    }
 }
 
 
@@ -122,4 +118,7 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::exit(){
+    recorder.waitForThread();
+    threadedTcpClient.sendMessage("{ \"message\" : \"done\" }");
+    std::exit(0);
 }
