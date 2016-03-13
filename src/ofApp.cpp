@@ -98,12 +98,17 @@ void ofApp::update() {
 		record = true;
 	}
 
-	// stop recording but give the app a second or two to parse what we just saw
+	// stop recording after 15 seconds
 	if (ofGetElapsedTimeMillis() > 15000) {
         recorder.stopThread();
 		record = false;
-        ofApp::exit();
 	}
+    
+    // wait 2 more seconds and then exit the app
+	if (ofGetElapsedTimeMillis() > 17000) {
+        recorder.waitForThread();
+        ofApp::exit();
+    }
 }
 
 
@@ -118,7 +123,6 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::exit(){
-    recorder.waitForThread();
     threadedTcpClient.sendMessage("{ \"message\" : \"done\" }");
     std::exit(0);
 }
