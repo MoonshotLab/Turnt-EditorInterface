@@ -74,41 +74,37 @@ void ofApp::update() {
 	}
 
 
-    // draw the video before the fbo
+    // draw the video before within the fbo
     videoPlayer.update();
     videoPlayer.draw(171, 0, 1024, 768);
 
-	timerVideo.update();
-	timerVideo.draw(1248, 660, 84, 87);
-
 	// end effects
 	fbo.end();
+    
+
+    
+    // update the timer video
+	timerVideo.update();
+
+    
 
 	// record the images
-	if (record) {
-        if(recorder.isThreadRunning()){
-            ofImage img;
-            img.grabScreen(171, 0, 1024, ofGetWindowHeight());
-            recorder.addFrame(img);
-        }
+    if (record && recorder.isThreadRunning()){
+        ofImage img;
+        img.grabScreen(171, 0, 1024, ofGetWindowHeight());
+        recorder.addFrame(img);
 	}
     
-	// start recording after 2 seconds
-	if (ofGetElapsedTimeMillis() > 2000) {
+	// start recording after a few milliseconds
+	if (ofGetElapsedTimeMillis() > 1000) {
 		record = true;
 	}
 
 	// stop recording after 15 seconds
 	if (ofGetElapsedTimeMillis() > 15000) {
-        recorder.stopThread();
 		record = false;
-	}
-    
-    // wait 2 more seconds and then exit the app
-	if (ofGetElapsedTimeMillis() > 17000) {
-        recorder.waitForThread();
         ofApp::exit();
-    }
+	}
 }
 
 
@@ -118,11 +114,15 @@ void ofApp::draw(){
     ofSetColor(255);
     glitch.generateFx(effectStrength);
     fbo.draw(0, 0);
+    
+    // draw the timer video
+    timerVideo.draw(1248, 660, 84, 87);
 }
 
 
 //--------------------------------------------------------------
 void ofApp::exit(){
+    recorder.waitForThread();
     threadedTcpClient.sendMessage("{ \"message\" : \"done\" }");
     std::exit(0);
 }
