@@ -100,8 +100,8 @@ void ofApp::update() {
 		record = true;
 	}
 
-	// stop recording after 15 seconds
-	if (ofGetElapsedTimeMillis() > 15000) {
+	// stop recording after 17 seconds
+	if (ofGetElapsedTimeMillis() > 17000) {
 		record = false;
         ofApp::exit();
 	}
