@@ -6,16 +6,16 @@
 #include "threadedTcpClient.h"
 
 class ofApp : public ofBaseApp{
-    
+
 public:
     void setup();
     void update();
     void draw();
     void exit();
-    
+
     ofxPostGlitch glitch;
     ofVideoPlayer videoPlayer;
-	ofVideoPlayer timerVideo;
+    ofVideoPlayer timerVideo;
     ofFbo fbo;
     ofxImageSequenceRecorder recorder;
     threadedTcpClient threadedTcpClient;
